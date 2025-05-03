@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>ТВ-Каналы | Endlad Movie</title>
+   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://endladmovie.github.io/styles.css">
+  <style>
+    .channel-card {
+      background: #1e1e1e;
+      border-radius: 10px;
+      margin: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .channel-card:hover {
+      transform: scale(1.02);
+    }
+    .channel-icon {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+    .channel-title {
+      font-size: 20px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="logo">Endlad</div>
+    <div class="nav">
+      <a href="https://endladmovie.github.io/tv.html">ТВ</a>
+      <a href="https://endladmovie.github.io/search.html">Поиск</a>
+      <a href="https://endladmovie.github.io/index.html">Главная</a>
+      <a href="https://endladmovie.github.io/catalog.html">Каталог</a>
+    </div>
+  </div>
+
+  <h1 style="color: white; text-align: center;">ТВ-Каналы</h1>
+  <div id="channelList" style="max-width: 900px; margin: 0 auto;"></div>
+
+  <script>
+    async function loadChannels() {
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/endladmovie/tv/refs/heads/main/tv.json');
+        const channels = await res.json();
+        const list = document.getElementById('channelList');
+
+        channels.forEach(channel => {
+          const card = document.createElement('div');
+          card.className = 'channel-card';
+          card.onclick = () => {
+            window.location.href = `https://endladmovie.github.io/tv/tv-watch.html?url=${encodeURIComponent(channel.url)}&title=${encodeURIComponent(channel.title)}`;
+          };
+          card.innerHTML = `
+            <img src="${channel.icon}" alt="Иконка" class="channel-icon">
+            <div class="channel-title">${channel.title}</div>
+          `;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Ошибка загрузки каналов:', err);
+      }
+    }
+
+    loadChannels();
+  </script>
+</body>
+</html>
