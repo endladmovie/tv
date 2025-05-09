@@ -31,6 +31,7 @@
       color: white;
     }
   </style>
+  <script src="https://endladmovie.github.io/remote-nav.js"></script>
 </head>
 <body>
   <div class="top-bar">
@@ -56,9 +57,10 @@
         channels.forEach(channel => {
           const card = document.createElement('div');
           card.className = 'channel-card';
-          card.onclick = () => {
-            window.location.href = `https://endladmovie.github.io/tv/tv-watch.html?url=${encodeURIComponent(channel.url)}&title=${encodeURIComponent(channel.title)}`;
-          };
+          element.addEventListener("pointerdown", () => {
+  window.location.href = `https://endladmovie.github.io/tv-watch.html?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
+});
+
           card.innerHTML = `
             <img src="${channel.icon}" alt="Иконка" class="channel-icon">
             <div class="channel-title">${channel.title}</div>
